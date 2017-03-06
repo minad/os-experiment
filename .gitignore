@@ -1,3 +1,5 @@
 boot-test-environ
 *.o
 tags
+src/myos.map
+src/myos.elf

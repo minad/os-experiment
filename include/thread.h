@@ -1,5 +1,5 @@
 #ifndef _THREAD_H
-#define _THREAD_H        
+#define _THREAD_H
 
 #include <types.h>
 //#include <vmem.h>
@@ -11,7 +11,7 @@ enum
     THREAD_PRIO_MAX = 20,
     THREAD_PRIO_MIN = 1,
     THREAD_PRIO_DEF = 10,
-    
+
     THREAD_STATE_RUNNING = 0,
     THREAD_STATE_SLEEP   = 1,
 };
@@ -65,34 +65,34 @@ typedef struct thread_s
     uint32_t esp0; // + 4
     uint32_t cr3;  // + 8
     // END: Layout important
-    
+
     // Parents, children of this thread
     struct thread_s* parent;
     list_t           children_list;
-    
+
     // Virtual memory data
     //vmem_data_t vmem;
-    
+
     // Thread state
     int state;
-    
+
     // Scheduling data
     int priority;
     int timeslice;
-    
+
     // Runtime
     int usertime, systime;
     int curr_usertime, curr_systime;
-    
+
     // Lists which contain the thread
     list_t thread_entry;
     list_t prio_entry;
     list_t child_entry;
     list_t hash_entry;
-    
+
     char name[256];
     int  pid;
-    
+
     // Floating point state
     bool       fp_inited;
     fp_state_t fp_state;
@@ -114,6 +114,8 @@ void thread_dump();
 
 extern thread_t* curr_thread;
 
+static inline void critical_enter() { irqs_disable(); }
+static inline void critical_leave() { irqs_enable(); }
 /*
 static inline void critical_enter()
 {
@@ -130,7 +132,7 @@ static inline void critical_enter()
 static inline void critical_leave()
 {
     if (unlikely(!curr_thread))
-	return;   
+	return;
     if (--curr_thread->critical_level == 0 && curr_thread->critical_enabled)
         irqs_enable();
 }
