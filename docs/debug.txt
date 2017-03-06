@@ -1,0 +1,19 @@
+MIT BOCHS:
+
+1. bochs mit gdb-stub kompilieren
+2. "bochs-gdb -q" starten
+3. Bochs wartet auf Debugger
+4. Breakpoint setzen (Achtung: Breakpoints an virtuelle Adressen erst nach vmem_init)
+5. Mit "continue" das System booten (WICHTIG!!!! Nicht "run" verwenden)
+6. Kernel mit grub starten
+7. Normal debuggen...
+
+
+MIT QEMU:
+
+1. "qemu -s -fda boot.img -fdb root.img" starten
+2. QEMU wartet auf Debugger
+3. Breakpoint setzen (Achtung: Breakpoints an virtuelle Adressen erst nach vmem_init)
+4. Mit "continue" das System booten (WICHTIG!!!! Nicht "run" verwenden)
+5. Kernel mit grub starten
+6. Normal debuggen...

@@ -1,0 +1,32 @@
+RAM-Layout:
+	     0x0 -    0x9FFFF: Lower memory
+         0xA0000 -    0xBFFFF: Video
+	0x100000 - 0xFEBFFFFF: Upper memory
+
+-------------------------------------------
+
+Physical:
+	0x10000 - ...: Kernel
+	0xB8000 - ...: Video
+
+Virtual (inclusive end address):
+        0x0        - 0xDFFFFFFF: Process space (arbitrary, depends on executable)
+	0xC00B8000 - ...:        Video
+	0xC0100000 - ...:        Kernel
+	0xF9400000 - 0xFF7FFFFF: Kernel heap (100M)
+	0xFF800000 - 0xFFBFEFFF: Swapper page tables (4M-4096)
+	0xFFBFF000 - 0xFFBFFFFF: Swapper page directory (4096)
+	0xFFC00000 - 0xFFFFEFFF: Page tables (from directory mapped into itself) (4M - 4096)
+	0xFFFFF000 - 0xFFFFFFFF: Page directory (mapped into itself) (4096)
+
+Page directory:
+	768:        Kernel page table (0xC0000000)
+	997 - 1021: Kernel heap
+	1022:       Current swapper page directory
+	1023:       Page directory mapped into itself
+
+Copying page tables and directories:
+	The temporary copies are mapped into the same page table as
+	the kernel. The kernel page table (768) is searched backwards
+	for free virtual addresses. But its only temporaryly and only used
+	for COW!!!
